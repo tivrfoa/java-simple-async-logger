@@ -1,0 +1,4 @@
+2022-01-10T09:02:54.313741893-03:00[America/Sao_Paulo] TRACE [main] org.tivrfoa.Bar: doing trace
+2022-01-10T09:02:54.315218183-03:00[America/Sao_Paulo] DEBUG [main] org.tivrfoa.Bar: doing my job
+2022-01-10T09:02:54.315305019-03:00[America/Sao_Paulo] INFO [main] org.tivrfoa.Bar: doing info
+2022-01-10T09:02:54.315418961-03:00[America/Sao_Paulo] ERROR [main] org.tivrfoa.Bar: doing error

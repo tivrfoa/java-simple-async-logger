@@ -1,54 +1,53 @@
 package org.tivrfoa;
 
+import java.time.ZonedDateTime;
 
 public class Logger {
 
-    private Level level;
     private String name;
     private AsyncAppenderBase asyncAppender;
 
-    public Logger(Level level, String name) {
-        this.level = level;
+    public Logger(String name) {
         this.name = name;
-        this.asyncAppender = new AsyncAppenderBase(new FileAppender("test-async.txt"));
+
+        // TODO find a better place for the code below?!
+        // Should this be done every time a Logger is instantiated?
+        this.asyncAppender = new AsyncAppenderBase(new FileAppender(LogConfig.OUTPUT_FILE_NAME));
         this.asyncAppender.start();
     }
 
     public Level getLevel() {
-        return level;
+        return LogConfig.LEVEL;
     }
 
     public String getName() {
         return name;
     }
 
-    public void trace(String msg) {
-        if (level.equalOrAbove(Level.TRACE)) {
-            // append msg
+    private void log(Level level, String msg) {
+        if (LogConfig.LEVEL.equalOrAbove(level)) {
+            asyncAppender.doAppend(ZonedDateTime.now() + " " + level + " [" +
+                   Thread.currentThread().getName() + "] " + name + ": "  + msg + "\n");
         }
+    }
+
+    public void trace(String msg) {
+        log(Level.TRACE, msg);
     }
 
     public void debug(String msg) {
-        if (level.equalOrAbove(Level.DEBUG)) {
-            asyncAppender.doAppend(msg);
-        }
+        log(Level.DEBUG, msg);
     }
 
     public void info(String msg) {
-        if (level.equalOrAbove(Level.INFO)) {
-            // append msg
-        }
+        log(Level.INFO, msg);
     }
 
     public void warn(String msg) {
-        if (level.equalOrAbove(Level.WARN)) {
-            // append msg
-        }
+        log(Level.WARN, msg);
     }
 
     public void error(String msg) {
-        if (level.equalOrAbove(Level.ERROR)) {
-            // append msg
-        }
+        log(Level.ERROR, msg);
     }
 }
